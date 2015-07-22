@@ -3,22 +3,13 @@ package io.swagger.jaxrs;
 import io.swagger.converter.ModelConverters;
 import io.swagger.jaxrs.ext.AbstractSwaggerExtension;
 import io.swagger.jaxrs.ext.SwaggerExtension;
-import io.swagger.models.parameters.CookieParameter;
-import io.swagger.models.parameters.FormParameter;
-import io.swagger.models.parameters.HeaderParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.parameters.PathParameter;
-import io.swagger.models.parameters.QueryParameter;
+import io.swagger.models.parameters.*;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 
-import javax.ws.rs.CookieParam;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,6 +38,16 @@ public class DefaultParameterExtension extends AbstractSwaggerExtension {
                     qp.setProperty(schema);
                 }
                 parameter = qp;
+            } else if (annotation instanceof MatrixParam) {
+                MatrixParam param = (MatrixParam) annotation;
+                MatrixParameter mp = new MatrixParameter()
+                        .name(param.value());
+
+                Property schema = createProperty(type);
+                if (schema != null) {
+                    mp.setProperty(schema);
+                }
+                parameter = mp;
             } else if (annotation instanceof PathParam) {
                 PathParam param = (PathParam) annotation;
                 PathParameter pp = new PathParameter()

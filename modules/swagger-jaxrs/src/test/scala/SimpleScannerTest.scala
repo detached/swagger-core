@@ -1,6 +1,6 @@
 import io.swagger.jaxrs.Reader
 import io.swagger.jaxrs.config.DefaultReaderConfig
-import io.swagger.models.parameters.{BodyParameter, PathParameter, QueryParameter, SerializableParameter}
+import io.swagger.models.parameters._
 import io.swagger.models.properties.{MapProperty, _}
 import io.swagger.models.{ArrayModel, Model, ModelImpl, RefModel, Swagger}
 import models.TestEnum
@@ -288,6 +288,14 @@ class SimpleScannerTest extends FlatSpec with Matchers {
     val swagger = new Reader(new Swagger()).read(classOf[Resource937])
     val get = swagger.getPaths().get("/external/info").getGet()
     val param = get.getParameters().get(0).asInstanceOf[QueryParameter]
+    param.getRequired should be(false)
+    param.getDefaultValue should be("dogs")
+  }
+
+  it should "scan a resource with matrix parameter" in {
+    val swagger = new Reader(new Swagger()).read(classOf[ResourceWithMatrixParam])
+    val get = swagger.getPaths().get("/test/matrix").getGet()
+    val param = get.getParameters().get(0).asInstanceOf[MatrixParameter]
     param.getRequired should be(false)
     param.getDefaultValue should be("dogs")
   }
