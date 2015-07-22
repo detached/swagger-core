@@ -163,7 +163,9 @@ public class Reader {
 
     /**
      * Scans a single class for Swagger annotations - does not invoke ReaderListeners
-     */
+     * @param cls the class to scan
+     * @return the generated Swagger definition
+    */
 
     public Swagger read(Class<?> cls) {
         return read(cls, "", null, false, new String[0], new String[0], new HashMap<String, Tag>(), new ArrayList<Parameter>());

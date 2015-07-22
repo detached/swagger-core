@@ -20,6 +20,7 @@ public class DefaultReaderConfig implements ReaderConfig {
 
     /**
      * Creates a copy of passed configuration.
+     * @param src the base configuration
      */
     public DefaultReaderConfig(ReaderConfig src) {
         if (src == null) {
